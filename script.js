@@ -45,3 +45,28 @@ prevBtn.addEventListener('click', goBack);
 document.getElementById('book').addEventListener('click', (e) => {
     if(e.target.tagName !== 'BUTTON') goNext();
 });
+
+window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    const audio = document.getElementById('bg-music');
+
+    // 1. Hide the loading screen
+    loadingScreen.style.opacity = '0';
+    
+    // 2. Remove it from the layout after the fade
+    setTimeout(() => {
+        loadingScreen.style.display = 'none';
+    }, 800);
+
+    // 3. Attempt to play (might be blocked, but will trigger on first click)
+    audio.play().catch(() => {
+        console.log("Autoplay blocked. Music will start on first interaction.");
+    });
+});
+
+// 4. Backup: Ensure music plays when she clicks the book
+document.addEventListener('click', () => {
+    if (audio.paused) {
+        audio.play();
+    }
+}, { once: true }); // Only runs on the very first click
